@@ -1,0 +1,6 @@
+-std=c++11
+-Wall
+-pthread
+-I.
+-Iinc
+-I/usr/include/eigen3

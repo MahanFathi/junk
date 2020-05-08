@@ -1,0 +1,13 @@
+p {
+    color: red;
+    width: 500px;
+    border: 1px solid black;
+}
+
+ul, h1, h2, h3 {
+    color: blue;
+}
+
+#my-id {
+    color: magenta;
+}
