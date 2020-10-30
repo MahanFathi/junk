@@ -4,7 +4,7 @@ SRC_DIR=src/
 INC_DIR=inc/
 
 CC=clang++
-CFLAGS= -std=c++14 -Wall -I$(INC_DIR)
+CFLAGS= -std=c++14 -Wall -I$(INC_DIR) -D NDEBUG
 
 LIBS=-lpthread -lXrandr -lXi -ldl
 

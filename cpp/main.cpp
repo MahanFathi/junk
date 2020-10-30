@@ -7,7 +7,7 @@
 #include <string_view>
 #include <vector>
 
-#define NDEBUG
+// #define NDEBUG // defined in makefile as cflags
 // #include <assert.h>
 #include <cassert>
 
