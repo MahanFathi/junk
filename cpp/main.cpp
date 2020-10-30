@@ -7,6 +7,10 @@
 #include <string_view>
 #include <vector>
 
+#define NDEBUG
+// #include <assert.h>
+#include <cassert>
+
 
 class Base {
 	public:
@@ -224,5 +228,7 @@ int main(int argc, char *argv[]) {
 	RunFn::func_t fn = printShit;
 	RunFn runFn(fn);
 	runFn.run();
+
+	assert(false && "assertion message");
 
 }
