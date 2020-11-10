@@ -6,10 +6,35 @@
 #include <functional>
 #include <string_view>
 #include <vector>
+#include <algorithm>
 
 // #define NDEBUG // defined in makefile as cflags
 // #include <assert.h>
 #include <cassert>
+
+double kirom(int a, int b) {
+	return a / b;
+}
+
+// constructors (all leave `a` unintialized)
+class DummyClass1 {
+	public:
+		int a;
+		int b;
+};
+class DummyClass2 {
+	public:
+		int a;
+		int b;
+		DummyClass2() {
+		}
+};
+class DummyClass3 {
+	public:
+		int a;
+		int b;
+		DummyClass3() = default;
+};
 
 
 class Base {
@@ -131,6 +156,14 @@ auto makeWalrus(const std::string& name)
 	};
 }
 
+auto makeWalrus2(const std::string& name)
+{
+	// Capture name by reference and return the lambda.
+	return [=]() -> void {
+		std::cout << "I am a walrus, my name is " << name << '\n'; // Undefined behavior
+	};
+}
+
 class RunFn
 {
 
@@ -230,5 +263,54 @@ int main(int argc, char *argv[]) {
 	runFn.run();
 
 	assert(false && "assertion message");
+
+
+	std::vector<int> array {1, 5, 5, 3, 2};
+
+	bool (*isEven)(int i){
+		[](int i)
+		{
+			return ((i % 2) == 0);
+		}
+	};
+
+	std::cout << static_cast<int>(std::all_of(array.begin(), array.end(), isEven)) << std::endl;
+	std::cout << typeid(kirom(5, 2)).name() << std::endl; // implicit cast to double
+
+	int testVar = 5;
+	auto testFunc1 {
+	[=]() mutable {
+		testVar++;
+	}};
+
+	auto testFunc2 {
+	[&]() {
+		testVar++;
+	}};
+
+
+	auto testFunc3 {
+	[&, dummyVar{testVar}]() {
+		testVar++;
+		std::cout << "dummyVar: \t" << dummyVar << std::endl;
+	}};
+
+	testFunc1();
+	std::cout << testVar << std::endl;
+	testFunc2();
+	std::cout << testVar << std::endl;
+	testFunc3();
+	std::cout << testVar << std::endl;
+
+
+	auto sayName2{ makeWalrus2("Roofus") };
+	sayName2();
+
+	DummyClass1 dummyClass1;
+	std::cout << dummyClass1.a << std::endl;
+	DummyClass2 dummyClass2;
+	std::cout << dummyClass2.a << std::endl;
+	DummyClass3 dummyClass3;
+	std::cout << dummyClass3.a << std::endl;
 
 }
